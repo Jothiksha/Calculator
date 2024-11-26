@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        /* CSS styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            width: 400px; /* Increased width */
+            height: 500px; /* Increased height */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+            background-color: #333333;
+            transition: transform 0.3s ease;
+        }
+
+        .calculator:hover {
+            transform: scale(1.05); /* Scale animation on hover */
+        }
+
+        .display {
+            background-color: #1e1e1e;
+            color: #00e676;
+            font-size: 2.5em;
+            padding: 20px; /* Increased padding for larger display */
+            text-align: right;
+            border-bottom: 3px solid #00e676;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+        }
+
+        .button {
+            font-size: 1.8em; /* Increased font size */
+            padding: 30px; /* Increased button size */
+            border: none;
+            cursor: pointer;
+            background-color: #444;
+            color: #ffffff;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        .button.operator {
+            background-color: #f50057;
+        }
+
+        .button:hover {
+            background-color: #00e676;
+            transform: scale(1.1); /* Slight bounce effect on hover */
+        }
+
+        .button.operator:hover {
+            background-color: #ff4081;
+        }
+
+        .button:active {
+            transform: scale(0.95); /* Button press effect */
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <!-- Number and operator buttons -->
+            <button class="button" onclick="appendValue('7')">7</button>
+            <button class="button" onclick="appendValue('8')">8</button>
+            <button class="button" onclick="appendValue('9')">9</button>
+            <button class="button operator" onclick="setOperator('/')">÷</button>
+            <button class="button" onclick="appendValue('4')">4</button>
+            <button class="button" onclick="appendValue('5')">5</button>
+            <button class="button" onclick="appendValue('6')">6</button>
+            <button class="button operator" onclick="setOperator('*')">×</button>
+            <button class="button" onclick="appendValue('1')">1</button>
+            <button class="button" onclick="appendValue('2')">2</button>
+            <button class="button" onclick="appendValue('3')">3</button>
+            <button class="button operator" onclick="setOperator('-')">−</button>
+            <button class="button" onclick="appendValue('0')">0</button>
+            <button class="button" onclick="clearDisplay()">C</button>
+            <button class="button" onclick="calculate()">=</button>
+            <button class="button operator" onclick="setOperator('+')">+</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript logic
+        let display = document.getElementById('display');
+        let currentValue = '';
+        let operator = '';
+        let previousValue = '';
+
+        function appendValue(value) {
+            currentValue += value;
+            display.innerText = currentValue;
+        }
+
+        function setOperator(op) {
+            if (currentValue) {
+                operator = op;
+                previousValue = currentValue;
+                currentValue = '';
+            }
+        }
+
+        function calculate() {
+            let result;
+            const num1 = parseFloat(previousValue);
+            const num2 = parseFloat(currentValue);
+
+            if (operator === '+') result = num1 + num2;
+            else if (operator === '-') result = num1 - num2;
+            else if (operator === '*') result = num1 * num2;
+            else if (operator === '/') result = num2 !== 0 ? num1 / num2 : 'Error';
+
+            display.innerText = result;
+            currentValue = result;
+            previousValue = '';
+            operator = '';
+        }
+
+        function clearDisplay() {
+            display.innerText = '0';
+            currentValue = '';
+            previousValue = '';
+            operator = '';
+        }
+    </script>
+</body>
+</html>
